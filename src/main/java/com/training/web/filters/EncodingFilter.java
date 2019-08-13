@@ -1,8 +1,9 @@
-package com.training.controller.filters;
+package com.training.web.filters;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
-
+@WebFilter(filterName = "encoding")
 public class EncodingFilter implements Filter {
 
     private String encoding;

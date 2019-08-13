@@ -1,22 +1,18 @@
 package com.training.model.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Objects;
 
 public class Service implements Serializable {
     private int id;
-    private String serviceNameUa;
-    private String serviceNameEn;
-    private BigDecimal price;
+    private String serviceName;
+    private double price;
 
     public Service() {
     }
 
     private Service(Builder builder){
         this.id = builder.id;
-        this.serviceNameUa = builder.serviceNameUa;
-        this.serviceNameEn = builder.serviceNameEn;
+        this.serviceName = builder.serviceName;
         this.price = builder.price;
     }
 
@@ -24,15 +20,11 @@ public class Service implements Serializable {
         return id;
     }
 
-    public String getServiceNameUa() {
-        return serviceNameUa;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public String getServiceNameEn() {
-        return serviceNameEn;
-    }
-
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -40,8 +32,7 @@ public class Service implements Serializable {
     public String toString() {
         return "Service{" +
                 "id=" + id +
-                ", serviceNameUa='" + serviceNameUa + '\'' +
-                ", serviceNameEn='" + serviceNameEn + '\'' +
+                ", serviceName='" + serviceName + '\'' +
                 ", price=" + price +
                 '}';
     }
@@ -61,26 +52,21 @@ public class Service implements Serializable {
 
     public static class Builder{
         private int id;
-        private String serviceNameUa;
-        private String serviceNameEn;
-        private BigDecimal price;
+        private String serviceName;
+        private double price;
 
         public Builder setId(int id){
             this.id = id;
             return this;
         }
 
-        public Builder setServiceNameUa(String serviceNameUa){
-            this.serviceNameUa = serviceNameUa;
+        public Builder setServiceName(String serviceName){
+            this.serviceName = serviceName;
             return this;
         }
 
-        public Builder setServiceNameEn(String serviceNameEn){
-            this.serviceNameEn = serviceNameEn;
-            return this;
-        }
 
-        public Builder setPrice(BigDecimal price){
+        public Builder setPrice(double price){
             this.price = price;
             return this;
         }

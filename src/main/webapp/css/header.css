@@ -1,0 +1,46 @@
+/*div {*/
+    /*display: flex;*/
+    /*justify-content:space-between;*/
+    /*align-items: center;*/
+/*}*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+
+body {
+    background-color: #34495e;
+    color: white;
+}
+.logo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.change_locale{
+    margin: 0.5em;
+    width: 8em;
+    height: 2.5em;
+    display: flex;
+
+}
+.links {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+}
+.header{
+    box-sizing: border-box;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+.btn{
+    box-sizing: border-box;
+}
+
+

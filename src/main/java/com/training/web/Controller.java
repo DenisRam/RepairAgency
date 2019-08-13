@@ -1,6 +1,6 @@
-package com.training.controller;
+package com.training.web;
 
-import com.training.controller.commands.Command;
+import com.training.web.commands.Command;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -14,12 +14,12 @@ public class Controller extends HttpServlet implements Servlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        doRequest(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        doRequest(req, resp);
     }
 
     private void doRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

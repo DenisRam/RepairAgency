@@ -1,8 +1,8 @@
 package com.training.model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.sql.Date;
+
 
 public class Order implements Serializable {
     private int id;
@@ -10,11 +10,11 @@ public class Order implements Serializable {
     private Integer serviceId;
     private String status;
     private Integer managerId;
-    private LocalDateTime reviewDate;
+    private Date reviewDate;
     private String rejectionReason;
     private Integer masterId;
-    private LocalDateTime repairStartTime;
-    private LocalDateTime repairFinish;
+    private Date repairStartTime;
+    private Date repairFinish;
 
     public Order() {
     }
@@ -52,7 +52,7 @@ public class Order implements Serializable {
         return managerId;
     }
 
-    public LocalDateTime getReviewDate() {
+    public Date getReviewDate() {
         return reviewDate;
     }
 
@@ -64,11 +64,11 @@ public class Order implements Serializable {
         return masterId;
     }
 
-    public LocalDateTime getRepairStartTime() {
+    public Date getRepairStartTime() {
         return repairStartTime;
     }
 
-    public LocalDateTime getRepairFinish() {
+    public Date getRepairFinish() {
         return repairFinish;
     }
 
@@ -107,11 +107,11 @@ public class Order implements Serializable {
         private Integer serviceId;
         private String status;
         private Integer managerId;
-        private LocalDateTime reviewDate;
+        private Date reviewDate;
         private String rejectionReason;
         private Integer masterId;
-        private LocalDateTime repairStartTime;
-        private LocalDateTime repairFinish;
+        private Date repairStartTime;
+        private Date repairFinish;
 
         public Builder setId(int id){
             this.id = id;
@@ -138,7 +138,7 @@ public class Order implements Serializable {
             return this;
         }
 
-        public Builder setReviewDate(LocalDateTime reviewDate){
+        public Builder setReviewDate(Date reviewDate){
             this.reviewDate = reviewDate;
             return this;
         }
@@ -153,12 +153,12 @@ public class Order implements Serializable {
             return this;
         }
 
-        public Builder setRepairStartTime(LocalDateTime repairStartTime){
+        public Builder setRepairStartTime(Date repairStartTime){
             this.repairStartTime = repairStartTime;
             return this;
         }
 
-        public Builder setRepairFinish(LocalDateTime repairFinish){
+        public Builder setRepairFinish(Date repairFinish){
             this.repairFinish = repairFinish;
             return this;
         }

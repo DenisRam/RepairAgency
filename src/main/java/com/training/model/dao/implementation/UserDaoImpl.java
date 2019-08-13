@@ -2,7 +2,7 @@ package com.training.model.dao.implementation;
 
 import com.training.model.dao.interfaces.UserDao;
 import com.training.model.entity.User;
-import com.training.model.exeptions.DBExeption;
+import com.training.model.exeptions.DataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,15 +15,15 @@ public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
 
     @Override
-    public int create(User entity, Connection connection) {
+    public int create(String name, String surname, int accountId, String role, Connection connection) {
         String sql = "INSERT into users (name, surname, account_id, role) VALUES (?, ?, ?, ?)";
         int id = 0;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1, entity.getName());
-            preparedStatement.setString(2, entity.getSurname());
-            preparedStatement.setInt(3, entity.getAccountId());
-            preparedStatement.setString(4,entity.getRole());
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            preparedStatement.setInt(3, accountId);
+            preparedStatement.setString(4,role);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.executeQuery("SELECT LAST_INSERT_ID()");
             if(resultSet.next()){
@@ -31,13 +31,13 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             LOGGER.error("Unable to create user in database", e.getCause());
-            throw new DBExeption("message.error.user");
+            throw new DataBaseException("message.error.user");
         }
         return id;
     }
 
     @Override
-    public User read(Integer id, Connection connection) {
+    public User read(int id, Connection connection) {
         User user = new User();
         String sql = "SELECT * FROM users WHERE id=?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -45,44 +45,45 @@ public class UserDaoImpl implements UserDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
                 user = new User.Builder().
+                        setId(resultSet.getInt("id")).
                         setName(resultSet.getString("name")).
-                        setName(resultSet.getString("surname")).
+                        setSurname(resultSet.getString("surname")).
                         setAccountId(resultSet.getInt("account_id")).
                         setRole(resultSet.getString("role")).
                         build();
             }
         }catch (SQLException e){
             LOGGER.error("Unable to read user in database", e.getCause());
-            throw new DBExeption("message.error.user");
+            throw new DataBaseException("message.error.user");
         }
         return user;
     }
 
     @Override
-    public void update(User entity, Connection connection) {
+    public void update(int id, String name, String surname, int accountId, String role, Connection connection) {
         String sql = "UPDATE users SET name=?, surname=?, account_id=?, role=? WHERE id=?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1, entity.getName());
-            preparedStatement.setString(2, entity.getSurname());
-            preparedStatement.setInt(3, entity.getAccountId());
-            preparedStatement.setString(4, entity.getRole());
-            preparedStatement.setInt(5, entity.getId());
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            preparedStatement.setInt(3, accountId);
+            preparedStatement.setString(4, role);
+            preparedStatement.setInt(5, id);
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             LOGGER.error("Unable to update user in database", e.getCause());
-            throw new DBExeption("message.error.user");
+            throw new DataBaseException("message.error.user");
         }
     }
 
     @Override
-    public void delete(User entity, Connection connection) {
+    public void delete(User user, Connection connection) {
         String sql = "DELETE FROM users WHERE id=?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setInt(1,entity.getId());
+            preparedStatement.setInt(1,user.getId());
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             LOGGER.error("Unable to delete user from database",e.getCause());
-            throw new DBExeption("message.error.user");
+            throw new DataBaseException("message.error.user");
         }
     }
 
@@ -98,12 +99,12 @@ public class UserDaoImpl implements UserDao {
                         setName(resultSet.getString("name")).
                         setSurname(resultSet.getString("surname")).
                         setAccountId(resultSet.getInt("account_id")).
-                        setRole("role").
+                        setRole(resultSet.getString("role")).
                         build());
             }
         }catch (SQLException e){
             LOGGER.error("Unable to read users from database",e.getCause());
-            throw new DBExeption("message.error.user");
+            throw new DataBaseException("message.error.user");
         }
         return list;
     }

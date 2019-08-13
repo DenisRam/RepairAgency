@@ -1,12 +1,12 @@
 package com.training.model.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Comment implements Serializable {
     private int id;
-    private Integer orderId;
+    private int orderId;
     private String commentText;
+    private int userId;
 
     public Comment() {
     }
@@ -15,18 +15,23 @@ public class Comment implements Serializable {
         this.id = builder.id;
         this.orderId = builder.orderId;
         this.commentText = builder.commentText;
+        this.userId =builder.userId;
     }
 
     public int getId() {
         return id;
     }
 
-    public Integer getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
     public String getCommentText() {
         return commentText;
+    }
+
+    public int getUserId(){
+        return userId;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class Comment implements Serializable {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", commentText='" + commentText + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -53,20 +59,25 @@ public class Comment implements Serializable {
 
     public static class Builder{
         private int id;
-        private Integer orderId;
+        private int orderId;
         private String commentText;
+        private int userId;
 
         public Builder setId(int id){
             this.id = id;
             return this;
         }
 
-        public Builder setOrderId(Integer orderId){
+        public Builder setOrderId(int orderId){
             this.orderId = orderId;
             return this;
         }
         public Builder setCommentText(String commentText){
             this.commentText = commentText;
+            return this;
+        }
+        public Builder setUserId(int userId){
+            this.userId = userId;
             return this;
         }
 

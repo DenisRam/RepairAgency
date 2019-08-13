@@ -1,11 +1,10 @@
 package com.training.model.dao.implementation;
 
+import com.training.model.exeptions.DataBaseException;
 import com.training.model.dao.interfaces.AccountDao;
 import com.training.model.entity.Account;
-import com.training.model.exeptions.DBExeption;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,13 +16,13 @@ public class AccountDaoImpl implements AccountDao {
 
 
     @Override
-    public int create(Account entity, Connection connection) {
+    public int create(String login, String password, Connection connection) {
         String sql = "INSERT into accounts (login, password) VALUES (?, ?)";
         int id = 0;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.executeQuery("SELECT LAST_INSERT_ID()");
             if(resultSet.next()){
@@ -31,14 +30,14 @@ public class AccountDaoImpl implements AccountDao {
             }
         } catch (SQLException e) {
             LOGGER.error("Unable to create account in database", e.getCause());
-            throw new DBExeption("message.error.account");
+            throw new DataBaseException("message.error.account");
         }
 
         return id;
     }
 
     @Override
-    public Account read(Integer id, Connection connection) {
+    public Account read(int id, Connection connection) {
         Account account = new Account();
         String sql = "SELECT * FROM accounts WHERE id=?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -53,22 +52,22 @@ public class AccountDaoImpl implements AccountDao {
             }
         }catch (SQLException e){
             LOGGER.error("Unable to read account from database", e.getCause());
-            throw  new DBExeption("message.error.account");
+            throw  new DataBaseException("message.error.account");
         }
         return account;
     }
 
     @Override
-    public void update(Account entity, Connection connection) {
+    public void update(int id, String login, String password, Connection connection) {
         String sql = "UPDATE accounts SET login=?, password=? WHERE id=?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.setInt(3, entity.getId());
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             LOGGER.error("Unable to update account in database",e.getCause());
-            throw new DBExeption("message.error.account");
+            throw new DataBaseException("message.error.account");
         }
 
     }
@@ -81,7 +80,7 @@ public class AccountDaoImpl implements AccountDao {
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             LOGGER.error("Unable to delete account from database",e.getCause());
-            throw new DBExeption("message.error.account");
+            throw new DataBaseException("message.error.account");
         }
     }
 
@@ -100,7 +99,7 @@ public class AccountDaoImpl implements AccountDao {
             }
         }catch (SQLException e){
             LOGGER.error("Unable to read accounts from database",e.getCause());
-            throw new DBExeption("message.error.account");
+            throw new DataBaseException("message.error.account");
         }
         return list;
     }
